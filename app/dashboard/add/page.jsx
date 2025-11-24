@@ -23,7 +23,7 @@ const page = () => {
     data: category,
     error,
     isLoading,
-  } = useSWR("https://durbek-webbot-node-1.onrender.com/api/products", fetcher);
+  } = useSWR("https://durbek-webbot-node.onrender.com/api/categories", fetcher);
 
   const catSellect = category?.map((item) => {
     return { value: item._id, label: item.name };
@@ -53,7 +53,7 @@ const page = () => {
   const CreateProduct = async (values) => {
     try {
       const res = await fetch(
-        "https://lesson-bot-node.onrender.com/api/products",
+        "https://durbek-webbot-node-1.onrender.com/api/products",
         {
           headers: {
             "Content-Type": "application/json",
