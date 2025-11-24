@@ -9,7 +9,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const page = () => {
   const { data, error, isLoading } = useSWR(
-    "https://durbek-webbot-node.onrender.com/api/products",
+    "https://durbek-webbot-node-1.onrender.com/api/products",
     fetcher
   );
 

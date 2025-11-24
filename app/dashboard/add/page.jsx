@@ -23,7 +23,7 @@ const page = () => {
     data: category,
     error,
     isLoading,
-  } = useSWR("https://durbek-webbot-node.onrender.com/api/products", fetcher);
+  } = useSWR("https://durbek-webbot-node-1.onrender.com/api/products", fetcher);
 
   const catSellect = category?.map((item) => {
     return { value: item._id, label: item.name };
