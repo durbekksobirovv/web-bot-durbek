@@ -1,9 +1,43 @@
 "use client";
-import { Card, Grid, Image, Text, ActionIcon, Flex, Box } from "@mantine/core";
-import React from "react";
+
+import {
+  Card,
+  Grid,
+  Image,
+  Text,
+  ActionIcon,
+  Flex,
+  Box,
+  Modal,
+  Group,
+  Button,
+} from "@mantine/core";
+import React, { useState } from "react";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
 
 const Dash_Card_List = ({ data }) => {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [deleteItem, setDeleteItem] = useState(null);
+
+  const DeleteProduct = async () => {
+    try {
+      let res = await fetch(
+        `https://durbek-webbot-node-1.onrender.com/api/products/${deleteItem._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!res.ok) {
+        throw new Error(`Failed to delete product`);
+      }
+      close();
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Grid gutter={"xs"}>
@@ -35,7 +69,13 @@ const Dash_Card_List = ({ data }) => {
                     <ActionIcon>
                       <IconPencil size={16} />
                     </ActionIcon>
-                    <ActionIcon color="red">
+                    <ActionIcon
+                      color="red"
+                      onClick={() => {
+                        setDeleteItem(item);
+                        open();
+                      }}
+                    >
                       <IconTrash size={16} />
                     </ActionIcon>
                   </Flex>
@@ -45,6 +85,16 @@ const Dash_Card_List = ({ data }) => {
           );
         })}
       </Grid>
+
+      <Modal opened={opened} onClose={close} title="Confirm Deletion">
+        <Text>( {deleteItem?.name} ) ni o'chirishni hohlaysizmi ?</Text>
+        <Group mt={"md"} grow>
+          <Button onClick={close}>Cancel</Button>
+          <Button color="red" onClick={DeleteProduct}>
+            Confirm
+          </Button>
+        </Group>
+      </Modal>
     </>
   );
 };
